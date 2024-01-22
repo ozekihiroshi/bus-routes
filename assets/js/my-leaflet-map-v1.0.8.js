@@ -35,6 +35,16 @@ document.addEventListener('DOMContentLoaded', function () {
     //}).addTo(map);
 
 
+   // 地図全体にクリックイベントを追加
+    map.on('click', function () {
+        // 全てのGPXレイヤーを表示
+        map.eachLayer(function (layer) {
+            if (layer instanceof L.GPX) {
+                layer.addTo(map);
+            }
+        });
+    });
+
     // GPXレイヤーを追加する関数
     function addGpxLayer(url, color, name = '') {
         var gpxLayer = new L.GPX(url, {
@@ -50,7 +60,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }).addTo(map);
 
         // レイヤーにクリックイベントを追加
-        gpxLayer.on('click', function () {
+        gpxLayer.on('click', function (e) {
             // 他のGPXレイヤーを非表示にする
             map.eachLayer(function (layer) {
                 if (layer instanceof L.GPX && layer !== gpxLayer) {
@@ -59,16 +69,8 @@ document.addEventListener('DOMContentLoaded', function () {
             });
             // クリックされたGPXレイヤーを再表示
             gpxLayer.addTo(map);
-        });
-        // 地図全体にクリックイベントを追加
-        map.on('click', function () {
-            // 全てのGPXレイヤーを表示
-            map.eachLayer(function (layer) {
-                if (layer instanceof L.GPX && !map.hasLayer(layer)) {
-                    layer.addTo(map);
-                }
-            });
-        });
+            L.DomEvent.stopPropagation(e); // 地図のクリックイベントへの伝播を止める
+        });	   
     }
     // 10個までのGPXファイルを異なる色で表示
     addGpxLayer('../../../../../wp-content/uploads/cm-maps-routes-manager/imports/1705855274085-21_01_24_GameCityToBusRank.gpx', 'blue', '');
