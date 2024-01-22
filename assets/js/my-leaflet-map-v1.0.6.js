@@ -71,7 +71,8 @@ function addGpxLayer(url, color, name='') {
     });
 }
    // 10個までのGPXファイルを異なる色で表示
-   addGpxLayer('../../../../../wp-content/uploads/cm-maps-routes-manager/imports/1705841488729-19_01_24-3.gpx','red','');
+   addGpxLayer('../../../../../wp-content/uploads/cm-maps-routes-manager/imports/1705855274085-21_01_24_GameCityToBusRank.gpx','blue','');
+   addGpxLayer('../../../../../wp-content/uploads/cm-maps-routes-manager/imports/1705867556320-21_01_24_BusRankToGameCity.gpx','red','');
    //addGpxLayer('../../assets/data/first.gpx', 'blue');
    //addGpxLayer('../../assets/data/second.gpx', 'red');
    //addGpxLayer('../../assets/data/third.gpx', 'green');
