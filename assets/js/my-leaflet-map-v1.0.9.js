@@ -34,13 +34,13 @@ document.addEventListener('DOMContentLoaded', function () {
     //   apiKey: 'あなたのThunderforest APIキー'
     //}).addTo(map);
 
+    var gpxLayers = [];
 
-   // 地図全体にクリックイベントを追加
+    // 地図全体にクリックイベントを追加
     map.on('click', function () {
-        // 全てのGPXレイヤーを表示
-        map.eachLayer(function (layer) {
-            if (layer instanceof L.GPX) {
-                layer.addTo(map);
+        gpxLayers.forEach(function (layer) {
+            if (!map.hasLayer(layer)) {
+                map.addLayer(layer);
             }
         });
     });
@@ -59,6 +59,8 @@ document.addEventListener('DOMContentLoaded', function () {
             map.fitBounds(e.target.getBounds());
         }).addTo(map);
 
+        gpxLayers.push(gpxLayer); // レイヤーを配列に追加
+
         // レイヤーにクリックイベントを追加
         gpxLayer.on('click', function (e) {
             // 他のGPXレイヤーを非表示にする
@@ -70,7 +72,7 @@ document.addEventListener('DOMContentLoaded', function () {
             // クリックされたGPXレイヤーを再表示
             gpxLayer.addTo(map);
             L.DomEvent.stopPropagation(e); // 地図のクリックイベントへの伝播を止める
-        });	   
+        });
     }
     // 10個までのGPXファイルを異なる色で表示
     addGpxLayer('../../../../../wp-content/uploads/cm-maps-routes-manager/imports/1705855274085-21_01_24_GameCityToBusRank.gpx', 'blue', '');
