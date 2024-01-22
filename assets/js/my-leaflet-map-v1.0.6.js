@@ -64,7 +64,7 @@ document.addEventListener('DOMContentLoaded', function () {
         map.on('click', function () {
             // 全てのGPXレイヤーを表示
             map.eachLayer(function (layer) {
-                if (layer instanceof L.GPX) {
+                if (layer instanceof L.GPX && !map.hasLayer(layer)) {
                     layer.addTo(map);
                 }
             });
