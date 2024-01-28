@@ -1,12 +1,12 @@
 document.addEventListener('DOMContentLoaded', function () {
     var map = L.map('my-leaflet-map').setView([-24.6282, 25.9231], 13); // ボツワナ・ハボロネの座標
     //var map = L.map('my-leaflet-map').setView([35.6895, 139.6917], 13); // 東京の座標をデフォルトに設定
-
+	
     // ベースマップレイヤーを追加
-    //    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    //       maxZoom: 19,
-    //       attribution: '© OpenStreetMap contributors'
-    //   }).addTo(map);
+//        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+ //          maxZoom: 19,
+  //         attribution: '© OpenStreetMap contributors'
+   //    }).addTo(map);
 
 
     //	L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
@@ -34,8 +34,35 @@ document.addEventListener('DOMContentLoaded', function () {
     //   apiKey: 'あなたのThunderforest APIキー'
     //}).addTo(map);
 
-    var gpxLayers = [];
+	 // 画像のURL
+        var imageUrl = 'https://www.game-city.fun/wp-content/uploads/cm-maps-routes-manager/images/2024-01-20_20-43-31_932734_IMG_2509-scaled.jpg';
 
+        // 画像を読み込んでExifデータから位置情報を取得
+        var img = new Image();
+        img.onload = function() {
+            EXIF.getData(img, function() {
+                var exifData = EXIF.getAllTags(this);
+                var latitude = exifData.GPSLatitude;
+                var longitude = exifData.GPSLongitude;
+
+		    console.log(latitude);
+                // マーカーに表示するポップアップのコンテンツ
+                var popupContent = '<h3>写真の撮影場所</h3>';
+                popupContent += '<p>緯度: ' + latitude + '</p>';
+                popupContent += '<p>経度: ' + longitude + '</p>';
+
+		    console.log(popupContent);
+                // マップ上にマーカーを追加してポップアップを表示
+                var marker = L.marker([latitude, longitude]).addTo(map);
+                marker.bindPopup(popupContent).openPopup();
+
+                // マーカーが表示される位置までマップを移動
+            //    map.setView([latitude, longitude], 13);
+            });
+        };
+        img.src = imageUrl;
+
+    var gpxLayers = [];
     // 地図全体にクリックイベントを追加
     map.on('click', function () {
         gpxLayers.forEach(function (layer) {
@@ -77,6 +104,8 @@ document.addEventListener('DOMContentLoaded', function () {
     // 10個までのGPXファイルを異なる色で表示
     addGpxLayer('../../../../../wp-content/uploads/cm-maps-routes-manager/imports/1705855274085-21_01_24_GameCityToBusRank.gpx', 'blue', '');
     addGpxLayer('../../../../../wp-content/uploads/cm-maps-routes-manager/imports/1705867556320-21_01_24_BusRankToGameCity.gpx', 'red', '');
+    addGpxLayer('../../../../../wp-content/uploads/cm-maps-routes-manager/imports/1706372240227-27_01_24.gpx', 'blue', '');
+    addGpxLayer('../../../../../wp-content/uploads/cm-maps-routes-manager/imports/1706372456313-27_01_24_2.gpx', 'red', '');
     //addGpxLayer('../../assets/data/first.gpx', 'blue');
     //addGpxLayer('../../assets/data/second.gpx', 'red');
     //addGpxLayer('../../assets/data/third.gpx', 'green');
