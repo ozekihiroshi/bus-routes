@@ -34,11 +34,47 @@ document.addEventListener('DOMContentLoaded', function () {
     //   apiKey: 'あなたのThunderforest APIキー'
     //}).addTo(map);
 
-    // 画像のURL
-    var imageUrl = 'https://www.game-city.fun/wp-content/uploads/cm-maps-routes-manager/images/2024-01-20_20-43-31_932734_IMG_2509-scaled.jpg';
 
-    // 画像を読み込んでExifデータから位置情報を取得
-    var img = new Image();
+    // 緯度と経度を抽出する関数
+    function getCoordinatesFromImage(url) {
+        return new Promise((resolve, reject) => {
+            getBase64FromImageUrl(url)
+                .then(base64 => getEXIFCoordinates(base64))
+                .then(coordinates => {
+                    const latitude = coordinates.lat;
+                    const longitude = coordinates.lng;
+                    resolve({ latitude, longitude });
+                })
+                .catch(error => {
+                    console.error('エラー:', error);
+                    reject(error);
+                });
+        });
+    }
+    // 緯度と経度を外部の変数にセットする関数
+    async function processCoordinates(imageUrl) {
+        try {
+            const { latitude, longitude } = await getCoordinatesFromImage(imageUrl);
+            // 外部の変数にセット
+            setCoordinates(latitude, longitude);
+        } catch (error) {
+            console.error('エラー:', error);
+        }
+    }
+    // 緯度と経度をセットする関数
+    function setCoordinates(lat, lng) {
+        latitude = lat;
+        longitude = lng;
+        // マーカーに表示するポップアップのコンテンツ
+        var popupContent = '<h3>写真の撮影場所</h3>';
+        popupContent += '<p>緯度: ' + latitude + '</p>';
+        popupContent += '<p>経度: ' + longitude + '</p>';
+
+        console.log(popupContent);
+        // マップ上にマーカーを追加してポップアップを表示
+        var marker = L.marker([latitude, longitude]).addTo(map);
+        marker.bindPopup(popupContent).openPopup();
+    }
 
     var gpxLayers = [];
     // 地図全体にクリックイベントを追加
@@ -78,29 +114,8 @@ document.addEventListener('DOMContentLoaded', function () {
             gpxLayer.addTo(map);
             L.DomEvent.stopPropagation(e); // 地図のクリックイベントへの伝播を止める
         });
-
     }
-    img.onload = function () {
-        EXIF.getData(img, function () {
-            var exifData = EXIF.getAllTags(this);
-            var latitude = exifData.GPSLatitude;
-            var longitude = exifData.GPSLongitude;
 
-            // マーカーに表示するポップアップのコンテンツ
-            var popupContent = '<h3>写真の撮影場所</h3>';
-            popupContent += '<p>緯度: ' + latitude + '</p>';
-            popupContent += '<p>経度: ' + longitude + '</p>';
-
-            console.log(popupContent);
-            // マップ上にマーカーを追加してポップアップを表示
-            var marker = L.marker([latitude, longitude]).addTo(map);
-            marker.bindPopup(popupContent).openPopup();
-
-            // マーカーが表示される位置までマップを移動
-            //    map.setView([latitude, longitude], 13);
-        });
-    };
-    img.src = imageUrl;
     // 10個までのGPXファイルを異なる色で表示
     addGpxLayer('../../../../../wp-content/uploads/cm-maps-routes-manager/imports/1705855274085-21_01_24_GameCityToBusRank.gpx', 'blue', '');
     addGpxLayer('../../../../../wp-content/uploads/cm-maps-routes-manager/imports/1705867556320-21_01_24_BusRankToGameCity.gpx', 'red', '');
@@ -116,4 +131,7 @@ document.addEventListener('DOMContentLoaded', function () {
     //addGpxLayer('../../assets/data/eighth.gpx', 'magenta');
     //addGpxLayer('../../assets/data/ninth.gpx', 'gray');
     //addGpxLayer('../../assets/data/tenth.gpx', 'brown');
+    // 画像のURL
+    var imageUrl = 'https://www.game-city.fun/wp-content/uploads/cm-maps-routes-manager/images/2024-01-20_20-43-31_932734_IMG_2509-scaled.jpg';
+    processCoordinates(imageUrl);
 });
