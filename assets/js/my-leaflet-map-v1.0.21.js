@@ -55,6 +55,8 @@ document.addEventListener('DOMContentLoaded', function () {
     async function processCoordinates(imageUrl) {
         try {
             const { latitude, longitude } = await getCoordinatesFromImage(imageUrl);
+            console.log(latitude);
+            console.log(longitude);
             // 外部の変数にセット
             setCoordinates(latitude, longitude);
         } catch (error) {
@@ -63,16 +65,14 @@ document.addEventListener('DOMContentLoaded', function () {
     }
     // 緯度と経度をセットする関数
     function setCoordinates(lat, lng) {
-        latitude = lat;
-        longitude = lng;
         // マーカーに表示するポップアップのコンテンツ
         var popupContent = '<h3>写真の撮影場所</h3>';
-        popupContent += '<p>緯度: ' + latitude + '</p>';
-        popupContent += '<p>経度: ' + longitude + '</p>';
+        popupContent += '<p>緯度: ' + lat + '</p>';
+        popupContent += '<p>経度: ' + lng + '</p>';
 
         console.log(popupContent);
         // マップ上にマーカーを追加してポップアップを表示
-        var marker = L.marker([latitude, longitude]).addTo(map);
+        var marker = L.marker([lat, lng]).addTo(map);
         marker.bindPopup(popupContent).openPopup();
     }
 
