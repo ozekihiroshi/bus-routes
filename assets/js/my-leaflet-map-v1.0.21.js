@@ -112,9 +112,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var imageUrl = 'https://www.game-city.fun/wp-content/uploads/2024/01/IMG_2541-1-scaled.jpg';
 
     // 地図が読み込まれた後に緯度経度を取得してマーカーを追加する
-    map.on('load', function () {
-        processCoordinates(imageUrl);
-    });
+    processCoordinates(imageUrl);
 
     // 緯度と経度を抽出する関数
     async function getCoordinatesFromImage(url) {
