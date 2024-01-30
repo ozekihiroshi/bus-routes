@@ -189,7 +189,8 @@ document.addEventListener('DOMContentLoaded', function () {
     async function processCoordinates(imageUrl) {
         try {
             const temp = await getCoordinatesFromImage(imageUrl);
-            const { latitude, longitude } = temp
+            const latitude = temp.lat;
+            const longitude = temp.lng;
             setCoordinates(latitude, longitude);
         } catch (error) {
             console.error('error:', error);
