@@ -119,6 +119,7 @@ document.addEventListener('DOMContentLoaded', function () {
         try {
             const base64 = await getBase64FromImageUrl(url);
             const coordinates = await getEXIFData(base64);
+            console.log("coordinates:", coordinates);
             return coordinates;
         } catch (error) {
             console.error('error:', error);
