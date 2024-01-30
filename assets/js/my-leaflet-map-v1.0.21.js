@@ -167,5 +167,4 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    processCoordinates(imageUrl);
 });
