@@ -60,6 +60,11 @@ document.addEventListener('DOMContentLoaded', function () {
     function addGpxLayer(url, color, name = '') {
         var gpxLayer = new L.GPX(url, {
             async: true,
+            marker_options: {
+                startIconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet-gpx/1.5.0/pin-icon-start.png',
+                endIconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet-gpx/1.5.0/pin-icon-end.png',
+                shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet-gpx/1.5.0/pin-shadow.png'
+            },
             polyline_options: {
                 color: color,
                 weight: 5,
@@ -108,7 +113,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // 地図が読み込まれた後に緯度経度を取得してマーカーを追加する
     L.DomEvent.on(map, 'load', function () {
-        //processCoordinates(imageUrl);
+        processCoordinates(imageUrl);
     });
 
     // 緯度と経度を抽出する関数
