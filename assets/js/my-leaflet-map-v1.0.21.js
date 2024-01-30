@@ -103,28 +103,24 @@ document.addEventListener('DOMContentLoaded', function () {
     //addGpxLayer('../../assets/data/tenth.gpx', 'brown');
 
     // 画像のURL
+    //var imageUrl = 'https://www.game-city.fun/wp-content/uploads/cm-maps-routes-manager/imaes/2024-01-20_20-43-31_932734_IMG_2509-scaled.jpg';
     var imageUrl = 'https://www.game-city.fun/wp-content/uploads/2024/01/IMG_2541-1-scaled.jpg';
 
     // 地図が読み込まれた後に緯度経度を取得してマーカーを追加する
-    map.on('load', function () {
+    L.DomEvent.on(map, 'load', function () {
         processCoordinates(imageUrl);
     });
 
     // 緯度と経度を抽出する関数
-    function getCoordinatesFromImage(url) {
-        return new Promise((resolve, reject) => {
-            getBase64FromImageUrl(url)
-                .then(base64 => getEXIFCoordinates(base64))
-                .then(coordinates => {
-                    const latitude = coordinates.lat;
-                    const longitude = coordinates.lng;
-                    resolve({ latitude, longitude });
-                })
-                .catch(error => {
-                    console.error('error:', error);
-                    reject(error);
-                });
-        });
+    async function getCoordinatesFromImage(url) {
+        try {
+            const base64 = await getBase64FromImageUrl(url);
+            const coordinates = await getEXIFData(base64);
+            return coordinates;
+        } catch (error) {
+            console.error('error:', error);
+            throw error;
+        }
     }
 
     // 画像のURLからBase64を取得する関数（修正済み）
@@ -139,16 +135,13 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // Base64からEXIF情報を取得して緯度経度を返す関数（サンプル実装）
-    function getEXIFCoordinates(base64) {
+    // Base64からEXIF情報を取得して緯度経度を返す関数
+    function getEXIFData(base64) {
         return new Promise((resolve, reject) => {
-            // Exif.jsを使用してEXIF情報を解析
             EXIF.getData(base64, function () {
                 const exifData = EXIF.getAllTags(this);
-                // 緯度と経度を取得
                 const latitude = exifData.GPSLatitude;
                 const longitude = exifData.GPSLongitude;
-                // 必要に応じて変換などの処理を行うこともできます
                 resolve({ lat: latitude, lng: longitude });
             });
         });
@@ -156,38 +149,18 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // 緯度と経度をセットする関数
     function setCoordinates(lat, lng) {
-        // マーカーに表示するポップアップのコンテンツ
         var popupContent = '<h3>Place of Photo</h3>';
         popupContent += '<p>Latitude: ' + lat + '</p>';
         popupContent += '<p>Longitude: ' + lng + '</p>';
-
-        console.log(popupContent);
         // マップ上にマーカーを追加してポップアップを表示
         var marker = L.marker([lat, lng]).addTo(map);
         marker.bindPopup(popupContent).openPopup();
     }
 
-
-    // 緯度と経度を抽出する
-    async function getCoordinatesFromImage(url) {
-        try {
-            const base64 = await getBase64FromImageUrl(url);
-            const coordinates = await getEXIFCoordinates(base64);
-            console.log('Latitude:', coordinates.lat);
-            console.log('Longitude:', coordinates.lng);
-        } catch (error) {
-            console.error('error:', error);
-        }
-    }
-
-
     // 緯度と経度を外部の変数にセットする関数
     async function processCoordinates(imageUrl) {
         try {
             const { latitude, longitude } = await getCoordinatesFromImage(imageUrl);
-            console.log(latitude);
-            console.log(longitude);
-            // 外部の変数にセット
             setCoordinates(latitude, longitude);
         } catch (error) {
             console.error('error:', error);
