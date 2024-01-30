@@ -7,10 +7,6 @@
  * Author: Hiroshi Ozeki
  */
 
-$icon_start_url = plugin_dir_url(__FILE__) . 'assets/img/pin-icon-start.png';
-$icon_end_url = plugin_dir_url(__FILE__) . 'assets/img/pin-icon-end.png';
-$shadow_url = plugin_dir_url(__FILE__) . 'assets/img/pin-shadow.png';
-
 function my_leaflet_map_enqueue_scripts()
 {
     wp_enqueue_style('leaflet-css', 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css');

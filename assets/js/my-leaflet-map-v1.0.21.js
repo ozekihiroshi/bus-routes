@@ -1,8 +1,16 @@
 document.addEventListener('DOMContentLoaded', function () {
     var map = L.map('my-leaflet-map').setView([-24.6282, 25.9231], 13); // ボツワナ・ハボロネの座標
-    var icon_start = L.icon({ iconUrl: '<?php echo $icon_start_url; ?>' });
-    var icon_end = L.icon({ iconUrl: '<?php echo $icon_end_url; ?>' });
-    var shadow = L.icon({ iconUrl: '<?php echo $shadow_url; ?>' });
+
+    var greenIcon = L.icon({
+        iconUrl: 'leaf-green.png',
+        shadowUrl: 'leaf-shadow.png',
+        iconSize: [38, 95], // size of the icon
+        shadowSize: [50, 64], // size of the shadow
+        iconAnchor: [22, 94], // point of the icon which will correspond to marker's location
+        shadowAnchor: [4, 62],  // the same for the shadow
+        popupAnchor: [-3, -76] // point from which the popup should open relative to the iconAnchor
+    });
+
 
     //var map = L.map('my-leaflet-map').setView([35.6895, 139.6917], 13); // 東京の座標をデフォルトに設定
 
@@ -95,7 +103,7 @@ document.addEventListener('DOMContentLoaded', function () {
     //addGpxLayer('../../assets/data/tenth.gpx', 'brown');
 
     // 画像のURL
-    var imageUrl = 'https://www.game-city.fun/wp-content/uploads/cm-maps-routes-manager/images/2024-01-20_20-43-31_932734_IMG_2509-scaled.jpg';
+    var imageUrl = 'https://www.game-city.fun/wp-content/uploads/2024/01/IMG_2541-1-scaled.jpg';
 
     // 地図が読み込まれた後に緯度経度を取得してマーカーを追加する
     map.on('load', function () {
