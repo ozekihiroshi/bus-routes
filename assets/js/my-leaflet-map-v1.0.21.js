@@ -130,17 +130,8 @@ document.addEventListener('DOMContentLoaded', function () {
     // Base64からEXIF情報を取得して緯度経度を返す関数（サンプル実装）
     function getEXIFCoordinates(base64) {
         return new Promise((resolve, reject) => {
-            // Base64形式の画像データをBlobに変換
-            const byteCharacters = atob(base64);
-            const byteNumbers = new Array(byteCharacters.length);
-            for (let i = 0; i < byteCharacters.length; i++) {
-                byteNumbers[i] = byteCharacters.charCodeAt(i);
-            }
-            const byteArray = new Uint8Array(byteNumbers);
-            const blob = new Blob([byteArray], { type: 'image/jpeg' });
-
             // Exif.jsを使用してEXIF情報を解析
-            EXIF.getData(blob, function () {
+            EXIF.getData(base64, function () {
                 const exifData = EXIF.getAllTags(this);
                 // 緯度と経度を取得
                 const latitude = exifData.GPSLatitude;
