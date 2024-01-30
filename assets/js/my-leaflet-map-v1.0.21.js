@@ -109,7 +109,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     resolve({ latitude, longitude });
                 })
                 .catch(error => {
-                    console.error('エラー:', error);
+                    console.error('error:', error);
                     reject(error);
                 });
         });
@@ -154,9 +154,9 @@ document.addEventListener('DOMContentLoaded', function () {
     // 緯度と経度をセットする関数
     function setCoordinates(lat, lng) {
         // マーカーに表示するポップアップのコンテンツ
-        var popupContent = '<h3>写真の撮影場所</h3>';
-        popupContent += '<p>緯度: ' + lat + '</p>';
-        popupContent += '<p>経度: ' + lng + '</p>';
+        var popupContent = '<h3>Place of Photo</h3>';
+        popupContent += '<p>Latitude: ' + lat + '</p>';
+        popupContent += '<p>Longitude: ' + lng + '</p>';
 
         console.log(popupContent);
         // マップ上にマーカーを追加してポップアップを表示
@@ -170,10 +170,10 @@ document.addEventListener('DOMContentLoaded', function () {
         try {
             const base64 = await getBase64FromImageUrl(url);
             const coordinates = await getEXIFCoordinates(base64);
-            console.log('緯度:', coordinates.lat);
-            console.log('経度:', coordinates.lng);
+            console.log('Latitude:', coordinates.lat);
+            console.log('Longitude:', coordinates.lng);
         } catch (error) {
-            console.error('エラー:', error);
+            console.error('error:', error);
         }
     }
 
@@ -187,7 +187,7 @@ document.addEventListener('DOMContentLoaded', function () {
             // 外部の変数にセット
             setCoordinates(latitude, longitude);
         } catch (error) {
-            console.error('エラー:', error);
+            console.error('error:', error);
         }
     }
 
