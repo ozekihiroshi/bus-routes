@@ -115,8 +115,8 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // 画像のURLからBase64を取得する関数（サンプル実装）
-    function getBase64FromImageUrl(url) {
+    // 画像のURLからBase64を取得する関数（修正済み）
+    async function getBase64FromImageUrl(url) {
         const response = await fetch(url);
         const blob = await response.blob();
         return new Promise((resolve, reject) => {
@@ -125,7 +125,6 @@ document.addEventListener('DOMContentLoaded', function () {
             reader.onerror = reject;
             reader.readAsDataURL(blob);
         });
-        // ここに実装を追加する
     }
 
     // Base64からEXIF情報を取得して緯度経度を返す関数（サンプル実装）
