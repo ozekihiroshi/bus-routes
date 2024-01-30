@@ -1,5 +1,9 @@
 document.addEventListener('DOMContentLoaded', function () {
     var map = L.map('my-leaflet-map').setView([-24.6282, 25.9231], 13); // ボツワナ・ハボロネの座標
+    var icon_start = L.icon({ iconUrl: '<?php echo $icon_start_url; ?>' });
+    var icon_end = L.icon({ iconUrl: '<?php echo $icon_end_url; ?>' });
+    var shadow = L.icon({ iconUrl: '<?php echo $shadow_url; ?>' });
+
     //var map = L.map('my-leaflet-map').setView([35.6895, 139.6917], 13); // 東京の座標をデフォルトに設定
 
     // ベースマップレイヤーを追加
