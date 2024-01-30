@@ -188,7 +188,8 @@ document.addEventListener('DOMContentLoaded', function () {
     // 緯度と経度を外部の変数にセットする関数
     async function processCoordinates(imageUrl) {
         try {
-            const { latitude, longitude } = await getCoordinatesFromImage(imageUrl);
+            const temp = await getCoordinatesFromImage(imageUrl);
+            const { latitude, longitude } = temp
             setCoordinates(latitude, longitude);
         } catch (error) {
             console.error('error:', error);
