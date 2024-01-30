@@ -12,7 +12,12 @@ function my_leaflet_map_enqueue_scripts()
     wp_enqueue_style('leaflet-css', 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css');
     wp_enqueue_script('leaflet-js', 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js', array(), null, true);
     wp_enqueue_script('exif-js', 'https://cdn.jsdelivr.net/npm/exif-js', array(), null, true);
-    wp_enqueue_script('leaflet-gpx-js', 'https://cdnjs.cloudflare.com/ajax/libs/leaflet-gpx/1.7.0/gpx.min.js', array('leaflet-js'), null, true);
+    wp_enqueue_script('leaflet-gpx-js', 'https://cdnjs.cloudflare.com/ajax/libs/leaflet-gpx/1.5.0/gpx.min.js', array('leaflet-js'), null, true);
+    wp_enqueue_script('leaflet-gpx-js', 'https://cdnjs.cloudflare.com/ajax/libs/leaflet-gpx/1.5.0/gpx.min.js.map', array(), null, true);
+    wp_enqueue_script('pin-icon-end', 'https://cdnjs.cloudflare.com/ajax/libs/leaflet-gpx/1.5.0/pin-icon-end.png', array(), null, true);
+    wp_enqueue_script('pin-icon-start', 'https://cdnjs.cloudflare.com/ajax/libs/leaflet-gpx/1.5.0/pin-icon-start.png', array(), null, true);
+    wp_enqueue_script('pin-icon-wpt', '	https://cdnjs.cloudflare.com/ajax/libs/leaflet-gpx/1.5.0/pin-icon-wpt.png', array(), null, true);
+    wp_enqueue_script('pin-shadow', 'https://cdnjs.cloudflare.com/ajax/libs/leaflet-gpx/1.5.0/pin-shadow.png', array(), null, true);
     wp_enqueue_script('my-leaflet-map-js', plugin_dir_url(__FILE__) . 'assets/js/my-leaflet-map-v1.0.21.js', array('leaflet-js', 'leaflet-gpx-js'), null, true);
 }
 
