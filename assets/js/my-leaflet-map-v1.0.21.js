@@ -141,7 +141,18 @@ document.addEventListener('DOMContentLoaded', function () {
     // Base64からEXIF情報を取得して緯度経度を返す関数
     function getEXIFData(base64) {
         return new Promise((resolve, reject) => {
-            EXIF.getData(new Blob([base64]), function () {
+            // Base64文字列からBlobオブジェクトを生成
+            const byteString = atob(base64.split(',')[1]);
+            const mimeString = base64.split(',')[0].split(':')[1].split(';')[0];
+            const ab = new ArrayBuffer(byteString.length);
+            const ia = new Uint8Array(ab);
+            for (let i = 0; i < byteString.length; i++) {
+                ia[i] = byteString.charCodeAt(i);
+            }
+            const blob = new Blob([ab], { type: mimeString });
+
+            // EXIFデータを取得
+            EXIF.getData(blob, function () {
                 const exifData = EXIF.getAllTags(this);
                 const latitude = exifData.GPSLatitude;
                 const longitude = exifData.GPSLongitude;
