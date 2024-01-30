@@ -157,6 +157,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 const latitude = exifData.GPSLatitude;
                 const longitude = exifData.GPSLongitude;
                 if (latitude && longitude) {
+                    console.log("GPSLatitude:", exifData.GPSLatitude);
+                    console.log("Converted latitude:", convertDMSToDD(latitude));
                     resolve({ lat: convertDMSToDD(latitude), lng: convertDMSToDD(longitude) });
                 } else {
                     reject("Latitude and/or longitude not found in EXIF data.");
