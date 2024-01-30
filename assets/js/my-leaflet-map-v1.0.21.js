@@ -143,13 +143,22 @@ document.addEventListener('DOMContentLoaded', function () {
     // Base64からEXIF情報を取得して緯度経度を返す関数
     function getEXIFData(base64) {
         return new Promise((resolve, reject) => {
-            EXIF.getData(base64, function () {
+            EXIF.getData(new Blob([base64]), function () {
                 const exifData = EXIF.getAllTags(this);
                 const latitude = exifData.GPSLatitude;
                 const longitude = exifData.GPSLongitude;
-                resolve({ lat: latitude, lng: longitude });
+                if (latitude && longitude) {
+                    resolve({ lat: convertDMSToDD(latitude), lng: convertDMSToDD(longitude) });
+                } else {
+                    reject("Latitude and/or longitude not found in EXIF data.");
+                }
             });
         });
+    }
+
+    // 度分秒 (DMS) を10進数 (DD) に変換する関数
+    function convertDMSToDD(dmsArray) {
+        return dmsArray[0] + dmsArray[1] / 60 + dmsArray[2] / 3600;
     }
 
     // 緯度と経度をセットする関数
