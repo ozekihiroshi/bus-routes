@@ -155,19 +155,16 @@ document.addEventListener('DOMContentLoaded', function () {
             // EXIFデータを取得
             EXIF.getData(blob, function () {
                 const exifData = EXIF.getAllTags(this);
-                const latitude = exifData.GPSLatitude;
-                const longitude = exifData.GPSLongitude;
+                const latitude = convertDMSToDD(exifData.GPSLatitude);
+                const longitude = convertDMSToDD(exifData.GPSLongitude);
                 const latitudeRef = exifData.GPSLatitudeRef; // 緯度参照
                 const longitudeRef = exifData.GPSLongitudeRef; // 経度参照
+
                 // 緯度経度の方向に基づいてプラスまたはマイナスの乗算を行う
                 const latitudeValue = latitudeRef === 'S' ? -latitude : latitude;
                 const longitudeValue = longitudeRef === 'W' ? -longitude : longitude;
-                if (latitude && longitude) {
-                    const coordinates = {
-                        lat: convertDMSToDD(latitude),
-                        lng: convertDMSToDD(longitude)
-                    };
-                    resolve(coordinates);
+                if (latitudeValue && longitudeValue) {
+                    resolve({ lat: latitudeValue, lng: longitudeValue });
                 } else {
                     reject("Latitude and/or longitude not found in EXIF data.");
                 }
