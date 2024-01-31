@@ -157,6 +157,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 const exifData = EXIF.getAllTags(this);
                 const latitude = exifData.GPSLatitude;
                 const longitude = exifData.GPSLongitude;
+                const latitudeRef = exifData.GPSLatitudeRef; // 緯度参照
+                const longitudeRef = exifData.GPSLongitudeRef; // 経度参照
+                // 緯度経度の方向に基づいてプラスまたはマイナスの乗算を行う
+                const latitudeValue = latitudeRef === 'S' ? -latitude : latitude;
+                const longitudeValue = longitudeRef === 'W' ? -longitude : longitude;
                 if (latitude && longitude) {
                     const coordinates = {
                         lat: convertDMSToDD(latitude),
