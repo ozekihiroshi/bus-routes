@@ -109,8 +109,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // 画像のURL
     //var imageUrl = 'https://www.game-city.fun/wp-content/uploads/cm-maps-routes-manager/imaes/2024-01-20_20-43-31_932734_IMG_2509-scaled.jpg';
-    var imageUrl = 'https://www.game-city.fun/wp-content/uploads/2024/01/IMG_2541-1-scaled.jpg';
-
+    //var imageUrl = 'https://www.game-city.fun/wp-content/uploads/2024/01/IMG_2541-1-scaled.jpg';
+    var imageUrl = 'https://www.game-city.fun/wp-content/uploads/cm-maps-routes-manager/images/2024-01-22_16-55-51_437926_IMG_2542-scaled.jpg';
     // 地図が読み込まれた後に緯度経度を取得してマーカーを追加する
     processCoordinates(imageUrl);
 
