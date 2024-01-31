@@ -179,12 +179,15 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // 緯度と経度をセットする関数
     function setCoordinates(lat, lng) {
-        var popupContent = '<h3>Place of Photo</h3>';
-        popupContent += '<p>Latitude: ' + lat + '</p>';
-        popupContent += '<p>Longitude: ' + lng + '</p>';
+        var popupContent = '<h4>Place of Photo</h4>';
+        popupContent += '<img src="' + imageUrl + '" width="50%"';
+        popupContent += '<pre>Latitude: ' + lat + '</pre>';
+        popupContent += '<pre>Longitude: ' + lng + '</pre>';
         // マップ上にマーカーを追加してポップアップを表示
         var marker = L.marker([lat, lng]).addTo(map);
         marker.bindPopup(popupContent).openPopup();
+        // マーカーが表示される位置までマップを移動
+        map.setView([lat, lng], 13);
     }
 
     // 緯度と経度を外部の変数にセットする関数
