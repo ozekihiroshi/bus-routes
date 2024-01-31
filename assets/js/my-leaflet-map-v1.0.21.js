@@ -179,8 +179,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // 緯度と経度をセットする関数
     function setCoordinates(lat, lng) {
-        var popupContent = '<h4>Place of Photo</h4>';
-        popupContent += '<img src="' + imageUrl + '" width="50%"';
+        var popupContent = '<a href="' + imageUrl + '"><img src="' + imageUrl + '" width="50%"></a>';
+        popupContent += '<h5>Place of Photo</h5>';
         popupContent += '<pre>Latitude: ' + lat + '</pre>';
         popupContent += '<pre>Longitude: ' + lng + '</pre>';
         // マップ上にマーカーを追加してポップアップを表示
